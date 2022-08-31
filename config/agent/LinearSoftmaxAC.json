@@ -1,0 +1,18 @@
+{
+    "agent_name": "LinearSoftmaxAC",
+    "parameters":
+    {
+        "decay": [0.5, 0.75, 0.9],
+        "critic_lr": [2.0, 0.5, 0.25, 0.125, 0.0625],
+        "actor_lr_scale": [0.01, 0.1, 1.0, 2.0, 5.0],
+		"use_critic_trace": [true, false],
+		"use_actor_trace": [true, false],
+		"temperature": [1.0, 0.1, 0.001],
+        "scaled": [false],
+		"bins": [4],
+		"num_tilings": [16],
+        "clip_stddev": [1000],
+        "count_interval": [10000],
+		"trace_type": ["replacing"]
+    }
+}

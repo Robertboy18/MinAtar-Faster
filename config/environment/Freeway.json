@@ -1,0 +1,13 @@
+{
+    "env_name": "MinAtarFreeway",
+    "total_timesteps": 5000000,
+    "steps_per_episode": 2500,
+    "eval_interval_timesteps": 100000000,
+    "eval_episodes": 0,
+    "gamma": 0.99,
+    "accumulate_trace": false,
+    "overwrite_rewards": false,
+	"continuous": false,
+    "rewards": {},
+    "start_state": []
+}
