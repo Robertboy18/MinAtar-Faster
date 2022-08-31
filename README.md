@@ -1,5 +1,5 @@
-# MinAtar
-MinAtar is a testbed for AI agents which implements miniaturized versions of several Atari 2600 games. MinAtar is inspired by the Arcade Learning Environment (Bellemare et. al. 2013) but simplifies the games to make experimentation with the environments more accessible and efficient. Currently, MinAtar provides analogues to five Atari games which play out on a 10x10 grid. The environments provide a 10x10xn state representation, where each of the n channels correspond to a game-specific object, such as ball, paddle and brick in the game Breakout.
+# MinAtar - Faster
+MinAtar is a testbed for AI agents which implements miniaturized versions of several Atari 2600 games. MinAtar is inspired by the Arcade Learning Environment (Bellemare et. al. 2013) but simplifies the games to make experimentation with the environments more accessible and efficient. Currently, MinAtar provides analogs to five Atari games which play out on a 10x10 grid. The environments provide a 10x10xn state representation, where each of the n channels corresponds to a game-specific object, such as a ball, paddle and brick in the game Breakout. The codebase has now been optimized (in some cases even JIT compile has been used ) and the training time of various environments has been reduced by at most 50%. We also provide benchmarks of the standard algorithms for the MinAtar games.
 
 <p  align="center">
 <img src="img/seaquest.gif" width="200" />
@@ -27,17 +27,12 @@ pip install --upgrade pip
 ```
 
 2.  Install MinAtar:
-To install the package and its dependencies
 ```bash
 pip install .
 ```
 If you have any issues with automatic dependency installation, you can instead install the necessary dependencies manually and run
 ```bash
 pip install . --no-deps
-```
-To install additional dependencies that are used by some examples (in particular `PyTorch`) run
-```bash
-pip install ".[examples]"
 ```
 
 To verify the installation is successful, run
@@ -54,7 +49,7 @@ The examples/random_play.py is a simple example to demonstrate how to use the mo
 To play a game as a human, run examples/human_play.py as follows:
 
 ```bash
-python examples/human_play.py -g <game>
+python human_play.py -g <game>
 ```
 Use the arrow keys to move and space bar to fire. Also, press q to quit and r to reset.
 
@@ -111,18 +106,37 @@ This will enter the agent environment interaction loop and then run the GUI thre
 ## Support for Other Languages
 
 - [Julia](https://github.com/mkschleg/MinAtar.jl/blob/master/README.md)
+- [Go](https://github.com/samuelfneumann/GoAtar)
+
+
+## Training Time results
+The following plots display results that compares the Average training time across the various environments between the old codebase (MinAtar) and the new codebase (MinAtar - Faster). The environments were trained on the Soft Actor Critic agent on a fixed hyperparameter setting which was chosen randomly. We trained SAC on 1.5 Million frames and 2500 steps per episode.
+
+<img align="center" src="img/results.png" width=800>
+
+The results for the average time spent in the environment transitioning per step across the various environments comparing the codebase are shown below.
+
+<img align = "center" src = "img/results1.png" width = 800>
 
 ## Results
-The following plots display results for DQN (Mnih et al., 2015) and actor-critic (AC) with eligibility traces. Our DQN agent uses a significantly smaller network compared to that of Mnih et al., 2015. We display results for DQN with and without experience reply. Our AC agent uses a similar architecture to DQN, but does not use experience replay. We display results for two values of the trace decay parameter, 0.8 and 0.0.  Each curve is the average of 30 independent runs with different random seeds. The top plots display the sensitivity of final performance to the step-size parameter, while the bottom plots display the average return during training as a function of training frames. For further information, see the paper on MinAtar available [here](https://arxiv.org/abs/1903.03176).
+The following plots display results for DQN (Mnih et al., 2015) and actor-critic (AC) with eligibility traces. Our DQN agent uses a significantly smaller network compared to that of Mnih et al., 2015. We display results for DQN with and without experience replay. Our AC agent uses a similar architecture to DQN, but does not use experience replay. We display results for two values of the trace decay parameter, 0.8 and 0.0.  Each curve is the average of 30 independent runs with different random seeds. The top plots display the sensitivity of final performance to the step-size parameter, while the bottom plots display the average return during training as a function of training frames. For further information, see the paper on MinAtar available [here](https://arxiv.org/abs/1903.03176).
 
 <img align="center" src="img/sensitivity_curves.gif" width=800>
+
 <img align="center" src="img/learning_curves.gif" width=800>
 
+Additionally some of the benchmarks results are shown below. The comparison is between the Soft actor-critic agent and a base model ie a Vanilla actor-critic agent. (SAC vs VAC). The agents were trained on 5 Million frames and 2500 steps per episode to compare against the original benchmark in MinAtar as well as used a new-hyperparamater approach to report the mean learning curves. The new proposed approach is part of an ongoing paper which is soon to be published, and the details will be revealed soon. The rest of the environments results are in the process of training and will be added as soon as they are ready.
+
+<img align="center" src="img/results2.png" width=800>
+
+<img align="center" src="img/results3.png" width=800>
+
+
 ## Games
-So far we have implemented analogues to five Atari games in MinAtar as follows. For each game, we include a link to a video of a trained DQN agent playing.
+So far we have implemented analogs to five Atari games in MinAtar as follows. For each game, we include a link to a video of a trained DQN agent playing.
 
 ### Asterix
-The player can move freely along the 4 cardinal directions. Enemies and treasure spawn from the sides. A reward of +1 is given for picking up treasure. Termination occurs if the player makes contact with an enemy. Enemy and treasure direction are indicated by a trail channel. Difficulty is periodically increased by increasing the speed and spawn rate of enemies and treasure.
+The player can move freely along the 4 cardinal directions. Enemies and treasure spawn from the sides. A reward of +1 is given for picking up treasure. Termination occurs if the player makes contact with an enemy. Enemy and treasure directions are indicated by a trail channel. The difficulty is periodically increased by increasing the speed and spawn rate of enemies and treasure.
 
 [Video](https://www.youtube.com/watch?v=Eg1XsLlxwRk)
 
@@ -132,24 +146,26 @@ The player controls a paddle on the bottom of the screen and must bounce a ball 
 [Video](https://www.youtube.com/watch?v=cFk4efZNNVI&t)
 
 ### Freeway
-The player begins at the bottom of the screen and the motion is restricted to travelling up and down. Player speed is also restricted such that the player can only move every 3 frames. A reward of +1 is given when the player reaches the top of the screen, at which point the player is returned to the bottom. Cars travel horizontally on the screen and teleport to the other side when the edge is reached. When hit by a car, the player is returned to the bottom of the screen. Car direction and speed is indicated by 5 trail channels.  The location of the trail gives direction while the specific channel indicates how frequently the car moves (from once every frame to once every 5 frames). Each time the player successfully reaches the top of the screen, the car speeds are randomized. Termination occurs after 2500 frames have elapsed.
+The player begins at the bottom of the screen and the motion is restricted to traveling up and down. Player speed is also restricted such that the player can only move every 3 frames. A reward of +1 is given when the player reaches the top of the screen, at which point the player is returned to the bottom. Cars travel horizontally on the screen and teleport to the other side when the edge is reached. When hit by a car, the player is returned to the bottom of the screen. Car direction and speed are indicated by 5 trail channels.  The location of the trail gives direction while the specific channel indicates how frequently the car moves (from once every frame to once every 5 frames). Each time the player successfully reaches the top of the screen, the car speeds are randomized. Termination occurs after 2500 frames have elapsed.
 
 [Video](https://www.youtube.com/watch?v=gbj4jiTcryw)
 
 ### Seaquest
-The player controls a submarine consisting of two cells, front and back, to allow direction to be determined. The player can also fire bullets from the front of the submarine. Enemies consist of submarines and fish, distinguished by the fact that submarines shoot bullets and fish do not. A reward of +1 is given each time an enemy is struck by one of the player's bullets, at which point the enemy is also removed. There are also divers which the player can move onto to pick up, doing so increments a bar indicated by another channel along the bottom of the screen. The player also has a limited supply of oxygen indicated by another bar in another channel. Oxygen degrades over time and is replenished whenever the player moves to the top of the screen as long as the player has at least one rescued diver on board. The player can carry a maximum of 6 divers. When surfacing with less than 6, one diver is removed. When surfacing with 6, all divers are removed and a reward is given for each active cell in the oxygen bar. Each time the player surfaces the difficulty is increased by increasing the spawn rate and movement speed of enemies. Termination occurs when the player is hit by an enemy fish, sub or bullet; or when oxygen reaches 0; or when the player attempts to surface with no rescued divers. Enemy and diver directions are indicated by a trail channel active in their previous location to reduce partial observability.
+The player controls a submarine consisting of two cells, front and back, to allow the direction to be determined. The player can also fire bullets from the front of the submarine. Enemies consist of submarines and fish, distinguished by the fact that submarines shoot bullets and fish do not. A reward of +1 is given each time an enemy is struck by one of the player's bullets, at which point the enemy is also removed. There are also divers that the player can move onto to pick up, doing so increments a bar indicated by another channel along the bottom of the screen. The player also has a limited supply of oxygen indicated by another bar in another channel. Oxygen degrades over time and is replenished whenever the player moves to the top of the screen as long as the player has at least one rescued diver on board. The player can carry a maximum of 6 divers. When surfacing with less than 6, one diver is removed. When surfacing with 6, all divers are removed and a reward is given for each active cell in the oxygen bar. Each time the player surfaces the difficulty is increased by increasing the spawn rate and movement speed of enemies. Termination occurs when the player is hit by an enemy fish, sub or bullet; when oxygen reaches 0; or when the player attempts to surface with no rescued divers. Enemy and diver directions are indicated by a trail channel active in their previous location to reduce partial observability.
 
 [Video](https://www.youtube.com/watch?v=W9k38b5QPxA&t)
 
 ### Space Invaders
-The player controls a cannon at the bottom of the screen and can shoot bullets upward at a cluster of aliens above. The aliens move across the screen until one of them hits the edge, at which point they all move down and switch directions. The current alien direction is indicated by 2 channels (one for left and one for right) one of which is active at the location of each alien. A reward of +1 is given each time an alien is shot, and that alien is also removed. The aliens will also shoot bullets back at the player. When few aliens are left, alien speed will begin to increase. When only one alien is left, it will move at one cell per frame. When a wave of aliens is fully cleared, a new one will spawn which moves at a slightly faster speed than the last. Termination occurs when an alien or bullet hits the player.
+The player controls a cannon at the bottom of the screen and can shoot bullets upward at a cluster of aliens above. The aliens move across the screen until one of them hits the edge, at which point they all move down and switch directions. The current alien direction is indicated by 2 channels (one for the left and one for the right) one of which is active at the location of each alien. A reward of +1 is given each time an alien is shot, and that alien is also removed. The aliens will also shoot bullets back at the player. When few aliens are left, alien speed will begin to increase. When only one alien is left, it will move at one cell per frame. When a wave of aliens is fully cleared, a new one will spawn which moves at a slightly faster speed than the last. Termination occurs when an alien or bullet hits the player.
 
 [Video](https://www.youtube.com/watch?v=W-9Ru-RDEoI)
 
-## Citing MinAtar
-If you use MinAtar in your research please cite the following:
+## Citing MinAtar - Faster
+If you use MinAtar - Faster in your research please cite the following:
 
 Young, K. Tian, T. (2019). MinAtar: An Atari-Inspired Testbed for Thorough and Reproducible Reinforcement Learning Experiments.  *arXiv preprint arXiv:1903.03176*.
+
+Joseph, Robert, et al. “Making Reinforcement Learning Experiments More Reproducible and Computationally Efficient.” [Undergraduate Research Symposium](https://www.robertj1.com/conferences/), 2022, pp. 15–16.
 
 In BibTeX format:
 
@@ -162,6 +178,14 @@ year = "2019"
 }
 ```
 
+## Future Work
+Compare various other algorithms such as DQN to Double DQN and produce more benchmarks.
+
+Prove theoretical guarantees on the new proposed Hyperparameter approach.
+
+Add more environments to MinAtar.
+
+Implement this in other languages.
 
 ## References
 Bellemare, M. G., Naddaf, Y., Veness, J., & Bowling, M. (2013). The arcade learning environment: An evaluation platform for general agents. *Journal of Artificial Intelligence Research*, 47, 253–279.

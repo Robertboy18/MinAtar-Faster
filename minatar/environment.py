@@ -11,7 +11,7 @@ import numpy as np
 # Environment
 #
 # Wrapper for all the specific game environments. Imports the environment specified by the user and then acts as a
-# minimal interface. Also defines code for displaying the environment for a human user. 
+# minimal interface. Also defines code for displaying the environment for a human user.
 #
 #####################################################################################################################
 class Environment:

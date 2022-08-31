@@ -2,9 +2,9 @@
 # Authors:                                                                                                     #
 # Kenny Young (kjyoung@ualberta.ca)                                                                            #
 # Tian Tian (ttian@ualberta.ca)                                                                                #
+# Robert Joseph (rjoseph1@ualberta.ca) (New Optimized Version)                                                 #
 ################################################################################################################
 import numpy as np
-
 
 #####################################################################################################################
 # Constants
@@ -254,33 +254,33 @@ class Env:
     def difficulty_ramp(self):
         return self.ramp_index
 
-    # Process the game-state into the 10x10xn state provided to the agent and return
+    # Process the game-state into the nx10x10 state provided to the agent and return
     def state(self):
-        state = np.zeros((10,10,len(self.channels)),dtype=bool)
-        state[self.sub_y,self.sub_x,self.channels['sub_front']] = 1
+        state = np.zeros((len(self.channels),10,10),dtype=bool)
+        state[self.channels['sub_front'],self.sub_y,self.sub_x] = 1
         back_x = self.sub_x-1 if self.sub_or else self.sub_x+1
-        state[self.sub_y,back_x,self.channels['sub_back']] = 1
-        state[9,0:self.oxygen*10//max_oxygen, self.channels['oxygen_guage']] = 1
-        state[9,9-self.diver_count:9, self.channels['diver_guage']] = 1
+        state[self.channels['sub_back'],self.sub_y,back_x] = 1
+        state[self.channels['oxygen_guage'],9,0:self.oxygen*10//max_oxygen] = 1
+        state[self.channels['diver_guage'],9,9-self.diver_count:9] = 1
         for bullet in self.f_bullets:
-            state[bullet[1],bullet[0], self.channels['friendly_bullet']] = 1
+            state[self.channels['friendly_bullet'],bullet[1],bullet[0]] = 1
         for bullet in self.e_bullets:
-            state[bullet[1],bullet[0], self.channels['enemy_bullet']] = 1
+            state[self.channels['enemy_bullet'],bullet[1],bullet[0]] = 1
         for fish in self.e_fish:
-            state[fish[1],fish[0], self.channels['enemy_fish']] = 1
+            state[self.channels['enemy_fish'],fish[1],fish[0]] = 1
             back_x = fish[0]-1 if fish[2] else fish[0]+1
             if(back_x>=0 and back_x<=9):
-                state[fish[1],back_x, self.channels['trail']] = 1
+                state[self.channels['trail'],fish[1],back_x] = 1
         for sub in self.e_subs:
-            state[sub[1],sub[0], self.channels['enemy_sub']] = 1
+            state[self.channels['enemy_sub'],sub[1],sub[0]] = 1
             back_x = sub[0]-1 if sub[2] else sub[0]+1
             if(back_x>=0 and back_x<=9):
-                state[sub[1],back_x, self.channels['trail']] = 1
+                state[self.channels['trail'],sub[1],back_x] = 1
         for diver in self.divers:
-            state[diver[1],diver[0], self.channels['diver']] = 1
+            state[self.channels['diver'],diver[1],diver[0]] = 1
             back_x = diver[0]-1 if diver[2] else diver[0]+1
             if(back_x>=0 and back_x<=9):
-                state[diver[1],back_x, self.channels['trail']] = 1
+                state[self.channels['trail'],diver[1],back_x] = 1
 
         return state
 
@@ -306,10 +306,10 @@ class Env:
         self.surface = True
         self.terminal = False
 
-    # Dimensionality of the game-state (10x10xn)
+    # Dimensionality of the game-state (nx10x10)
     def state_shape(self):
-        return [10,10,len(self.channels)]
-
+        return [len(self.channels),10,10]
+        
     # Subset of actions that actually have a unique impact in this environment
     def minimal_action_set(self):
         minimal_actions = ['n','l','u','r','d','f']

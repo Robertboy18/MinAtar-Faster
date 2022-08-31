@@ -2,9 +2,9 @@
 # Authors:                                                                                                     #
 # Kenny Young (kjyoung@ualberta.ca)                                                                            #
 # Tian Tian (ttian@ualberta.ca)                                                                                #
+# Robert Joseph (rjoseph1@ualberta.ca) (New Optimized Version)                                                 #
 ################################################################################################################
 import numpy as np
-
 
 #####################################################################################################################
 # Constants
@@ -122,17 +122,17 @@ class Env:
     def difficulty_ramp(self):
         return self.ramp_index
             
-    # Process the game-state into the 10x10xn state provided to the agent and return
+    # Process the game-state into the nx10x10 state provided to the agent and return
     def state(self):
-        state = np.zeros((10,10,len(self.channels)),dtype=bool)
-        state[9,self.pos,self.channels['cannon']] = 1
-        state[:,:, self.channels['alien']] = self.alien_map
+        state = np.zeros((len(self.channels),10,10),dtype=bool)
+        state[self.channels['cannon'],9,self.pos] = 1
+        state[self.channels['alien'],:,:] = self.alien_map
         if(self.alien_dir<0):
-            state[:,:, self.channels['alien_left']] = self.alien_map
+            state[self.channels['alien_left'],:,:] = self.alien_map
         else:
-            state[:,:, self.channels['alien_right']] = self.alien_map
-        state[:,:, self.channels['friendly_bullet']] = self.f_bullet_map
-        state[:,:, self.channels['enemy_bullet']] = self.e_bullet_map
+            state[self.channels['alien_right'],:,:] = self.alien_map
+        state[self.channels['friendly_bullet'],:,:] = self.f_bullet_map
+        state[self.channels['enemy_bullet'],:,:] = self.e_bullet_map
         return state
 
     # Reset to start state for new episode
@@ -150,9 +150,9 @@ class Env:
         self.shot_timer = 0
         self.terminal = False
 
-    # Dimensionality of the game-state (10x10xn)
+    # Dimensionality of the game-state (nx10x10)
     def state_shape(self):
-        return [10,10,len(self.channels)]
+        return [len(self.channels),10,10]
 
     # Subset of actions that actually have a unique impact in this environment
     def minimal_action_set(self):
