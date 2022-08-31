@@ -365,6 +365,20 @@ journal = {arXiv preprint arXiv:1903.03176},
 year = "2019"
 }
 ```
+and 
+```
+@Article{minatarfaster,
+author = {{George}, Robert Joseph and {Neumann}, Samuel and {White}, Martha and {White}, Adam},
+title = {Making Reinforcement Learning Experiments More Reproducible and Computationally Efficient.},
+year = "2022"
+}
+```
+
+## Special thanks
+
+[Samuel Neumann](https://github.com/samuelfneumann) for all the help he has given me with this research over the summer.
+
+Professor [Martha White](https://webdocs.cs.ualberta.ca/~whitem/) for letting me do this research over the summer at the Reinforcement Learning and Artificial Intelligence Lab (RLAI) and at the Alberta Machine Intelligence Institute (Amii).
 
 ## Future Work
 Compare various other algorithms such as DQN to Double DQN and produce more benchmarks.
