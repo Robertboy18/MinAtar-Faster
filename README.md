@@ -353,7 +353,7 @@ If you use MinAtar - Faster in your research please cite the following:
 
 Young, K. Tian, T. (2019). MinAtar: An Atari-Inspired Testbed for Thorough and Reproducible Reinforcement Learning Experiments.  *arXiv preprint arXiv:1903.03176*.
 
-Joseph, Robert, et al. “Making Reinforcement Learning Experiments More Reproducible and Computationally Efficient.” [Undergraduate Research Symposium](https://www.robertj1.com/conferences/), 2022, pp. 15–16.
+Joseph, Robert, et al. “Making Reinforcement Learning Experiments More Reproducible and Computationally Efficient.” Undergraduate Research Symposium, University of Alberta, 2022, pp. 15–16.
 
 In BibTeX format:
 
