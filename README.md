@@ -378,7 +378,7 @@ year = "2022"
 
 [Samuel Neumann](https://github.com/samuelfneumann) for all the help he has given me with this research over the summer.
 
-Professor [Martha White](https://webdocs.cs.ualberta.ca/~whitem/) for letting me do this research over the summer at the Reinforcement Learning and Artificial Intelligence Lab (RLAI) and at the Alberta Machine Intelligence Institute (Amii).
+Professor [Martha White](https://webdocs.cs.ualberta.ca/~whitem/) and [Adam White](https://sites.ualberta.ca/~amw8/) for letting me do this research over the summer at the Reinforcement Learning and Artificial Intelligence Lab (RLAI) and at the Alberta Machine Intelligence Institute (Amii).
 
 ## Future Work
 Compare various other algorithms such as DQN to Double DQN and produce more benchmarks.
