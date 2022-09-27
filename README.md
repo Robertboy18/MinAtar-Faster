@@ -313,11 +313,17 @@ The following plots display results for DQN (Mnih et al., 2015) and actor-critic
 
 <img align="center" src="img/learning_curves.gif" width=800>
 
-Additionally some of the benchmarks results are shown below. The comparison is between the Soft actor-critic agent and a base model ie a Vanilla actor-critic agent. (SAC vs VAC). The agents were trained on 5 Million frames and 2500 steps per episode to compare against the original benchmark in MinAtar as well as used a new-hyperparamater approach to report the mean learning curves. The new proposed approach is part of an ongoing paper which is soon to be published, and the details will be revealed soon. The rest of the environments results are in the process of training and will be added as soon as they are ready.
+Additionally, some of the benchmark results are shown below. The comparison is between the Soft actor-critic agent and a base model ie a Vanilla actor-critic agent. (SAC vs VAC). The agents were trained on 5 Million frames and 2500 steps per episode to compare against the original benchmark in MinAtar as well as used a new-hyperparameter approach to report the mean learning curves. The new proposed approach is part of an ongoing paper that is soon to be published, and the details will be revealed soon. 
 
 <img align="center" src="img/results2.png" width=800>
-
+&nbsp;
 <img align="center" src="img/results3.png" width=800>
+&nbsp;
+<img align="center" src="img/Space_Invaders.png" width=800>
+&nbsp;
+<img align="center" src="img/seaquest.png" width=800>
+&nbsp;
+<img align="center" src="img/freeway.png" width=800>
 
 
 ## Games
