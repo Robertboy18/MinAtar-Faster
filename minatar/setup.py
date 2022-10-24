@@ -25,7 +25,7 @@ entry_points = {
 
 setup(
     name='MinAtar-Faster',
-    version='1.1.0',
+    version='1.1.1',
     description='A faster miniaturized version of the arcade learning environment.',
     url='https://github.com/kenjyoung/MinAtar',
     author='Robert Joseph George',

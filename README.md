@@ -295,6 +295,8 @@ This will enter the agent environment interaction loop and then run the GUI thre
 
 - [Julia](https://github.com/mkschleg/MinAtar.jl/blob/master/README.md)
 - [Go](https://github.com/samuelfneumann/GoAtar)
+- [JAX](https://github.com/RobertTLange/gymnax)
+
 
 
 ## Training Time results
@@ -338,6 +340,8 @@ The player begins at the bottom of the screen and the motion is restricted to tr
 
 ### Seaquest
 The player controls a submarine consisting of two cells, front and back, to allow the direction to be determined. The player can also fire bullets from the front of the submarine. Enemies consist of submarines and fish, distinguished by the fact that submarines shoot bullets and fish do not. A reward of +1 is given each time an enemy is struck by one of the player's bullets, at which point the enemy is also removed. There are also divers that the player can move onto to pick up, doing so increments a bar indicated by another channel along the bottom of the screen. The player also has a limited supply of oxygen indicated by another bar in another channel. Oxygen degrades over time and is replenished whenever the player moves to the top of the screen as long as the player has at least one rescued diver on board. The player can carry a maximum of 6 divers. When surfacing with less than 6, one diver is removed. When surfacing with 6, all divers are removed and a reward is given for each active cell in the oxygen bar. Each time the player surfaces the difficulty is increased by increasing the spawn rate and movement speed of enemies. Termination occurs when the player is hit by an enemy fish, sub or bullet; when oxygen reaches 0; or when the player attempts to surface with no rescued divers. Enemy and diver directions are indicated by a trail channel active in their previous location to reduce partial observability.
+
+**Note: MinAtar v1.0.10 and lower have a bug in Seaquest which causes the oxygen bar to flash to full one time-step before termination occured due to oxygen running out. This could have a significant impact on agents which learn from one step transitions as a full oxygen bar could either mean full oxygen or imminent termination due to no oxygen. For this reason Seaquest results obtained prior to v1.0.11 may not be consistent with results obtained from v1.0.11 onward.**
 
 [Video](https://www.youtube.com/watch?v=W9k38b5QPxA&t)
 
