@@ -315,15 +315,7 @@ The following plots display results for DQN (Mnih et al., 2015) and actor-critic
 
 Additionally, some of the benchmark results are shown below. The comparison is between the Soft actor-critic agent and a base model ie a Vanilla actor-critic agent. (SAC vs VAC). The agents were trained on 5 Million frames and 2500 steps per episode to compare against the original benchmark in MinAtar as well as used a new-hyperparameter approach to report the mean learning curves. The new proposed approach is part of an ongoing paper that is soon to be published, and the details will be revealed soon. 
 
-<img align="center" src="img/results2.png" width=800>
-&nbsp;
-<img align="center" src="img/results3.png" width=800>
-&nbsp;
-<img align="center" src="img/Space_Invaders.png" width=800>
-&nbsp;
-<img align="center" src="img/seaquest.png" width=800>
-&nbsp;
-<img align="center" src="img/freeway.png" width=800>
+<img align="center" src="img/results4.png" width=800>
 
 
 ## Games
@@ -359,7 +351,7 @@ If you use MinAtar - Faster in your research please cite the following:
 
 Young, K. Tian, T. (2019). MinAtar: An Atari-Inspired Testbed for Thorough and Reproducible Reinforcement Learning Experiments.  *arXiv preprint arXiv:1903.03176*.
 
-Joseph, Robert, et al. “Making Reinforcement Learning Experiments More Reproducible and Computationally Efficient.” Undergraduate Research Symposium, University of Alberta, 2022, pp. 15–16.
+George, Robert Joseph, Martha White, Adam White and Samuel Neumann. “Making Reinforcement Learning Experiments More Reproducible and Computationally Efficient.” *Reverse Expo, Alberta Machine Intelligence Institute*, 2022. (Also at the Undergraduate Research Symposium)
 
 In BibTeX format:
 
